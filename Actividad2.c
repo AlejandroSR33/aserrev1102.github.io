@@ -1,42 +1,43 @@
 #include <stdio.h>
-#include </usr/include/linux/types.h>
+#include <sys/types.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include </usr/include/linux/wait.h>
 #include <sys/wait.h>
 
-void pruebaParametros(int args, char ** argv){
+void pruebaParametros(int args, char ** argv)
+{
     printf("El numero de argumentos son %d\n", args);
-    for (int i = 0; i<args; i++){
-        printf("Arg(%d = %s\n", i, argv{i});
-    }
+        for(int i = 0; i<args; i++){
+            printf("Arg(%d) = %s\n", i, argv[i]);
+        }
 }
-int main(){
+
+int main(int args, char argv){
+
     pid_t pid;
-    int status;
-    char *argumentos[3] = {"ls", "-l", NULL};
+    int estado;
     pid = fork();
+    char *argumentos[3] = {"ls","-l", NULL};
+    switch (pid)
+    {
+    case -1:
+        printf ("Error inesperado");
+        exit(-1);
+        break;
 
-    printf("el valor del pid del hijo es: %d", pid);
-    printf("El valor del pid del padre es: %d", getpid());
+    case 0:
+        printf ("Soy el proceso hijo y voy a ejecutar el ls -l con pid = %d, \n", getpid());
+        if (execvp(argumentos[0],argumentos)){
+            printf ("Error de cojones");
+            exit(-2);
+        }
 
-    switch(pid){
-        case -1:
-            printf("Error de fork\n");
-            exit(-1);
-            break;
-        case 0:
-            if execvp(argumentos[0], argumentos){
-                printf("Error")
-                exit(-2);
+        break;
 
-            }
-            printf("Error de exec. Si todo ha ido bien esto no se ejecuta");
-            break;
-        default:
-            printf("Pid del padres es %d y el del hijo", getpid(), pid);
-            wait(&status);
-            break;
+    default:
+        printf ("Soy el padre con pid %d y voy a esperar a mi hijo con pid %d\n", getpid(), pid);
+        wait(&estado);
+        break;
     }
     return 0;
 }
