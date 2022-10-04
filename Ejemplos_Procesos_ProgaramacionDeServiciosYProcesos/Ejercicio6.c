@@ -3,7 +3,7 @@
 #include <unistd.h> //imprescindible para las funciones con fork
 #include <sys/types.h> //define tipos
 #include <stdlib.h> //llamada exit
- void pruebaParametros(int args, char ** argv){
+void pruebaParametros(int args, char ** argv){
     printf("El numero de argumentos son %d\n", args);
     for (int i = 0; i<args; i++){
         printf("Arg(%d = %s\n", i, argv{i});
